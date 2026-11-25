@@ -10,6 +10,8 @@ if (lines.length !== 2) { console.error(`FAIL: expected exactly 2 lines, got ${l
 if (!lines[0].startsWith("To: ") || lines[0].length <= 4) { console.error("FAIL: first line must be a To: line"); process.exit(1); }
 const message = lines[1];
 if (message.length === 0 || message.length > 200) { console.error(`FAIL: message must be 1-200 characters, got ${message.length}`); process.exit(1); }
+if (message !== message.trim() || lines[0] !== lines[0].trim()) { console.error("FAIL: lines must not start or end with whitespace"); process.exit(1); }
+if (/\s{2,}/.test(message)) { console.error("FAIL: message must not contain double spaces"); process.exit(1); }
 if (body.length < 1 || body.length > 260) { console.error(`FAIL: entry must be 1-260 characters, got ${body.length}`); process.exit(1); }
 if (body.trim().length === 0) { console.error("FAIL: entry is only whitespace"); process.exit(1); }
 const outDir = "/output";
